@@ -18,6 +18,7 @@ public class HomeworkStepDefinition
     private readonly ISpecFlowOutputHelper _specFlowOutputHelper;
     private HttpClient? _client;
     private string? _token;
+    private string? _userName;
 
     public HomeworkStepDefinition(ISpecFlowOutputHelper specFlowOutputHelper)
     {
@@ -59,6 +60,8 @@ public class HomeworkStepDefinition
                 db.Users.Add(new User { UserName = userName, Password = password });
                 db.SaveChanges();
             }
+
+            _userName = userName;
         }
         catch (Exception e)
         {
@@ -92,5 +95,16 @@ public class HomeworkStepDefinition
     {
         _specFlowOutputHelper.WriteLine(_token);
         Assert.IsNotEmpty(_token);
+    }
+
+    [AfterScenario]
+    public void AfterScenario()
+    {
+        var myDbContext = new MyDbContext();
+        var removeUsers = myDbContext.Users.Where(p => p.UserName == _userName);
+        myDbContext.Users.RemoveRange(removeUsers);
+        myDbContext.SaveChanges();
+
+        _specFlowOutputHelper.WriteLine("Data Remove");
     }
 }
