@@ -33,4 +33,10 @@ public class HomeworkStepDefinition
         var chromeOptions = new ChromeOptions();
         _webDriver = new RemoteWebDriver(new Uri("http://web-driver.tool.net:4444"), chromeOptions);
     }
+
+    [Given(@"存在用户名为""(.*)""和密码为""(.*)""的用户")]
+    public void Given存在用户名为和密码为的用户(string joseph, string p1)
+    {
+        ScenarioContext.StepIsPending();
+    }
 }

@@ -4,8 +4,8 @@
 Scenario: 環境測試
 When 環境測試
 
-#场景: 作业1-打印登录Token
-#假如存在用户名为"joseph"和密码为"123"的用户
+Scenario: 作业1-打印登录Token
+Given 存在用户名为"joseph"和密码为"123"的用户
 #当通过API以用户名为"joseph"和密码为"123"登录时
 #那么打印Token
 #
