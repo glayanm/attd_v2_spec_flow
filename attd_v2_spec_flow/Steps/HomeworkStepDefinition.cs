@@ -15,6 +15,7 @@ public class HomeworkStepDefinition
 {
     private const string BaseUrl = "http://localhost:10081/";
     private static RemoteWebDriver? _webDriver;
+    private readonly MyDbContext _db;
     private readonly ISpecFlowOutputHelper _specFlowOutputHelper;
     private HttpClient? _client;
     private string? _googleResult;
@@ -24,8 +25,14 @@ public class HomeworkStepDefinition
     public HomeworkStepDefinition(ISpecFlowOutputHelper specFlowOutputHelper)
     {
         _specFlowOutputHelper = specFlowOutputHelper;
+        _db = new MyDbContext();
     }
 
+    [BeforeScenario]
+    public void BeforeScenario()
+    {
+        _webDriver = null;
+    }
 
     [When(@"環境測試")]
     public void When環境測試()
@@ -55,11 +62,10 @@ public class HomeworkStepDefinition
     {
         try
         {
-            var db = new MyDbContext();
-            if (!db.Users.Any(p => p.UserName == userName))
+            if (!_db.Users.Any(p => p.UserName == userName))
             {
-                db.Users.Add(new User { UserName = userName, Password = password });
-                db.SaveChanges();
+                _db.Users.Add(new User { UserName = userName, Password = password });
+                _db.SaveChanges();
             }
 
             _userName = userName;
@@ -101,16 +107,18 @@ public class HomeworkStepDefinition
     [AfterScenario]
     public void AfterScenario()
     {
-        var myDbContext = new MyDbContext();
-        var removeUsers = myDbContext.Users.Where(p => p.UserName == _userName);
-        myDbContext.Users.RemoveRange(removeUsers);
-        myDbContext.SaveChanges();
+        var removeUsers = _db.Users.Where(p => p.UserName == _userName);
+        _db.Users.RemoveRange(removeUsers);
+        _db.SaveChanges();
 
         _specFlowOutputHelper.WriteLine("Data Remove");
+
+        GetWebDriver().Quit();
+        _specFlowOutputHelper.WriteLine("Web driver quit");
     }
 
-    [When(@"在百度搜索关键字""(.*)""")]
-    public void When在百度搜索关键字(string cucumber)
+    [When(@"在谷歌搜索关键字""(.*)""")]
+    public void When在谷歌搜索关键字(string cucumber)
     {
         try
         {
@@ -135,5 +143,12 @@ public class HomeworkStepDefinition
             _specFlowOutputHelper.WriteLine(e.Message);
             throw;
         }
+    }
+
+    [Then(@"打印谷歌为您找到的相关结果数")]
+    public void Then打印谷歌为您找到的相关结果数()
+    {
+        _specFlowOutputHelper.WriteLine(_googleResult);
+        Assert.IsNotEmpty(_googleResult);
     }
 }
