@@ -137,6 +137,12 @@ this.ScenarioInitialize(scenarioInfo);
 #line 8
 testRunner.Given("存在用户名为\"joseph\"和密码为\"123\"的用户", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
+#line 9
+testRunner.When("通过API以用户名为\"joseph\"和密码为\"123\"登录时", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 10
+testRunner.Then("打印Token", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
             }
             this.ScenarioCleanup();
         }

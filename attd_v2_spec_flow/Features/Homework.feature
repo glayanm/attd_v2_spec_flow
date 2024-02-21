@@ -6,8 +6,8 @@ When 環境測試
 
 Scenario: 作业1-打印登录Token
 Given 存在用户名为"joseph"和密码为"123"的用户
-#当通过API以用户名为"joseph"和密码为"123"登录时
-#那么打印Token
+When 通过API以用户名为"joseph"和密码为"123"登录时
+Then 打印Token
 #
 #场景: 作业2-操作浏览器
 #当在百度搜索关键字"cucumber"
