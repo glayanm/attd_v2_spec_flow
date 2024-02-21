@@ -11,7 +11,10 @@
     </ItemGroup>
 
     <ItemGroup>
+        <PackageReference Include="ChromeDriver2.1" Version="2.1.210652" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.0.0" />
+        <PackageReference Include="Selenium.WebDriver" Version="4.18.1" />
+        <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="122.0.6261.3900-beta" />
         <PackageReference Include="SpecFlow.Plus.LivingDocPlugin" Version="3.9.57" />
         <PackageReference Include="SpecFlow.NUnit" Version="3.9.22" />
         <PackageReference Include="nunit" Version="3.13.2" />
