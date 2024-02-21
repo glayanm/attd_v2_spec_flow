@@ -17,6 +17,7 @@ public class HomeworkStepDefinition
     private static RemoteWebDriver? _webDriver;
     private readonly ISpecFlowOutputHelper _specFlowOutputHelper;
     private HttpClient? _client;
+    private string? _googleResult;
     private string? _token;
     private string? _userName;
 
@@ -106,5 +107,33 @@ public class HomeworkStepDefinition
         myDbContext.SaveChanges();
 
         _specFlowOutputHelper.WriteLine("Data Remove");
+    }
+
+    [When(@"在百度搜索关键字""(.*)""")]
+    public void When在百度搜索关键字(string cucumber)
+    {
+        try
+        {
+            var webDriver = GetWebDriver();
+
+            webDriver.Navigate().GoToUrl("https://www.google.com");
+            Thread.Sleep(2000);
+
+            var webElement = webDriver.FindElement(By.Id("APjFqb"));
+            webElement.SendKeys("Cucumber");
+            webElement.Submit();
+
+            Thread.Sleep(2000);
+            var resultStats = webDriver.FindElement(By.Id("result-stats"));
+            _googleResult = resultStats.Text;
+
+            Thread.Sleep(500);
+            // webDriver.Quit();
+        }
+        catch (Exception e)
+        {
+            _specFlowOutputHelper.WriteLine(e.Message);
+            throw;
+        }
     }
 }

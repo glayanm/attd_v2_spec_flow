@@ -9,6 +9,6 @@ Given 存在用户名为"joseph"和密码为"123"的用户
 When 通过API以用户名为"joseph"和密码为"123"登录时
 Then 打印Token
 #
-#场景: 作业2-操作浏览器
-#当在百度搜索关键字"cucumber"
+Scenario: 作业2-操作浏览器
+When 在百度搜索关键字"cucumber"
 #那么打印百度为您找到的相关结果数
